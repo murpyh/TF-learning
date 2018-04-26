@@ -95,7 +95,7 @@ for i in range(10000):
 for i in range(10):
     test_batch = mnist.test.next_batch(1000)
     test_accuracy=accuracy.eval(feed_dict={ x: test_batch[0], y_: test_batch[1], keep_prob: 1.0})
-    # 格式化成2016-03-20 11:45:39形式
+    # 时间格式化成2016-03-20 11:45:39形式
     t= time.localtime()
     current_time =  time.strftime("%Y-%m-%d %H:%M:%S:", t)
     print (current_time+"test accuracy %g" %test_accuracy) 

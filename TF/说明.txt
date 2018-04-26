@@ -1,2 +1,0 @@
-学习tensorflow用的代码
-tf learning code

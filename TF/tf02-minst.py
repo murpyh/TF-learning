@@ -1,3 +1,7 @@
+"""
+    example for MNIST recognization with softmax output layer neural network. 
+"""
+
 import tensorflow as tf
 import numpy as np
 
@@ -38,15 +42,15 @@ sess.run(init)     #Very important!!!
 for step in range(1000):
     batch_xs, batch_ys = mnist.train.next_batch(100)
     sess.run(train_step, feed_dict={x:batch_xs, y_:batch_ys})
-##    if step%20 ==0:
-##        train_prediction = tf.equal(tf.argmax(y,1),tf.argmax(y_,1))
-##        train_accuracy = tf.reduce_mean(tf.cast(train_prediction,"float"))
-##        train_accuracy_precent = sess.run(train_accuracy, feed_dict={x:batch_xs, y_:batch_ys})
-##        print(train_accuracy_precent)
+    if step%20 ==0:
+        train_prediction = tf.equal(tf.argmax(y,1),tf.argmax(y_,1))
+        train_accuracy = tf.reduce_mean(tf.cast(train_prediction,"float"))
+        train_accuracy_precent = sess.run(train_accuracy, feed_dict={x:batch_xs, y_:batch_ys})
+        print("step %d training accuracy:%g"%(step,train_accuracy_precent))
 
 #valuation
 correct_prediction = tf.equal(tf.argmax(y,1),tf.argmax(y_,1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction,"float"))
 accuracy_precent = sess.run(accuracy, feed_dict={x:mnist.test.images, y_:mnist.test.labels})
-print(accuracy_precent)
+print('testing accuracy:%g'%accuracy_precent)
 

@@ -1,3 +1,7 @@
+"""
+    example for MNIST recognization with softmax output layer neural network. 
+"""
+
 import tensorflow as tf
 import numpy as np
 

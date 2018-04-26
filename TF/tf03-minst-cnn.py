@@ -1,3 +1,7 @@
+"""
+      MNIST recognization with convolution neural network.
+"""
+
 import tensorflow as tf
 import time
 
@@ -29,21 +33,31 @@ def max_pool_2x2(x):
 #define interactive session
 sess = tf.InteractiveSession()
 
+#define placeholder for input images and output labels
 x = tf.placeholder("float", shape=[None, 784])
 y_ = tf.placeholder("float", shape=[None, 10])
 
 ###construct Convolution Neural Network###
 x_image = tf.reshape(x, [-1,28,28,1])
 
-# layer1
+# layer1:
+'''
+    input: 28x28  image
+    convolutional kernel:32  5*5filters, stride =1, padding=0, 2x2 max-pooling
+    output: 14x14 image 
+'''
 W_conv1 = weight_variable([5,5,1,32])
 b_conv1 = bias_variable([32])
-print(W_conv1)
 
 h_conv1 = tf.nn.relu(conv2d(x_image, W_conv1) + b_conv1)
 h_pool1 = max_pool_2x2(h_conv1)
 
-#layer2
+#layer2:
+'''
+    input: 14x14x32  image
+    convolutional kernel:64  5*5filters, stride =1, padding=0, 2x2 max-pooling
+    output: 7x7x64 image 
+'''
 W_conv2 = weight_variable([5,5,32,64])
 b_conv2 = bias_variable([64])
 
@@ -51,6 +65,11 @@ h_conv2 = tf.nn.relu(conv2d(h_pool1, W_conv2) + b_conv2)
 h_pool2= max_pool_2x2(h_conv2)
 
 # fully-connected layer
+'''
+    input: 7x7x64  image
+    layer neurons: 1024
+    output: 1024 neurons 
+'''
 W_fc1 = weight_variable([7 * 7 * 64, 1024])
 b_fc1 = bias_variable([1024])
 
@@ -70,7 +89,11 @@ y_conv=tf.nn.softmax(tf.matmul(h_fc1_drop, W_fc2) + b_fc2)
 #define cost function
 cross_entropy = - tf.reduce_sum(y_*tf.log(y_conv))
 
-#define training:
+#define training
+'''
+    Adam: 99.2%
+    GradientDescent: 98.8%
+'''
 learning_rate = 0.0001
 train_step = tf.train.AdamOptimizer(learning_rate).minimize(cross_entropy)
 #train_step = tf.train.GradientDescentOptimizer(learning_rate).minimize(cross_entropy)

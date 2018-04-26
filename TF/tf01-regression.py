@@ -1,3 +1,7 @@
+'''
+    example for regression with TensorFlow
+'''
+
 import tensorflow as tf
 import numpy as np
 
@@ -18,7 +22,7 @@ optimizer = tf.train.GradientDescentOptimizer(0.5)
 train = optimizer.minimize(loss)
 
 # 初始化变量
-# init = tf.initialize_all_variables()
+# init = tf.initialize_all_variables()   #已经停用
 init = tf.global_variables_initializer()
 
 # 启动图 (graph)

@@ -25,9 +25,14 @@ def bias_variable(shape):
     convolution and max pooling
 '''
 def conv2d(x, W):
+  # stride=[1, x_movement, y_movement, 1]
+  # stride[0]=stride[3]=1!!!
+  # padding='SAME', picture would be the same size
+  # padding='VALID', picture would be smaller than original image
   return tf.nn.conv2d(x, W, strides=[1, 1, 1, 1], padding='SAME')
 
 def max_pool_2x2(x):
+  # ksize =kernel size=[1, x_size, y_size ,1]
   return tf.nn.max_pool(x, ksize=[1, 2, 2, 1], strides=[1, 2, 2, 1],padding='SAME')
 
 #define interactive session
@@ -46,11 +51,11 @@ x_image = tf.reshape(x, [-1,28,28,1])
     convolutional kernel:32  5*5filters, stride =1, padding=0, 2x2 max-pooling
     output: 14x14 image 
 '''
-W_conv1 = weight_variable([5,5,1,32])
+W_conv1 = weight_variable([5,5,1,32]) #patch=5x5, in size 1, out size 32
 b_conv1 = bias_variable([32])
 
-h_conv1 = tf.nn.relu(conv2d(x_image, W_conv1) + b_conv1)
-h_pool1 = max_pool_2x2(h_conv1)
+h_conv1 = tf.nn.relu(conv2d(x_image, W_conv1) + b_conv1) # out size=28x28x32
+h_pool1 = max_pool_2x2(h_conv1)                                         # out size=14x14x32
 
 #layer2:
 '''
@@ -70,10 +75,10 @@ h_pool2= max_pool_2x2(h_conv2)
     layer neurons: 1024
     output: 1024 neurons 
 '''
-W_fc1 = weight_variable([7 * 7 * 64, 1024])
+W_fc1 = weight_variable([7 * 7 * 64, 1024]) #[input size, output size]
 b_fc1 = bias_variable([1024])
 
-h_pool2_flat = tf.reshape(h_pool2, [-1, 7*7*64])
+h_pool2_flat = tf.reshape(h_pool2, [-1, 7*7*64])  #[n_samples, 7 , 7, 64]->>[n_samples, 7*7*64]
 h_fc1 = tf.nn.relu(tf.matmul(h_pool2_flat, W_fc1) + b_fc1)
 
 #dropout

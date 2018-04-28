@@ -119,6 +119,14 @@ for i in range(20000):
         print ("step %d, training accuracy %g"%(i, train_accuracy))
     train_step.run(feed_dict={x: batch[0], y_: batch[1], keep_prob: 0.5})
 
+#####save parameters to file
+##saver = tf.train.Saver()
+##model_path =  "Mynet/cnn_net.ckpt"
+##save_path = saver.save(sess, model_path)
+##print("save to path:", save_path)
+##
+##saver.restore(sess, model_path)
+
 # testdata for validation
 for i in range(10):
     test_batch = mnist.test.next_batch(1000)
@@ -127,6 +135,8 @@ for i in range(10):
     t= time.localtime()
     current_time =  time.strftime("%Y-%m-%d %H:%M:%S:", t)
     print (current_time+"test accuracy %g" %test_accuracy) 
+
+
 
 # close session after testing 
 sess.close()
